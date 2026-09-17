@@ -46,14 +46,30 @@
             document.getElementById("demo").innerHTML = "Hello JavaScript";
         }
     </script>
-    -->
 
-    <h1>  My first Web Page </h1>
-    <p> My first paragraph  </p>
+
+    <p id="demo"> My first paragraph  </p>
+
+    <button class="button" onclick="myFunction()" > Napis text  </button>
 
     <script>
-        document.write(5+6);
+        function myFunction(){
+        document.getElementById("demo").innerHTML = "<h2> This is new inner text </h2>";
+        }
     </script>
 
+    <script>
+        alert(5+5)
+        console.log(5+5)
+    </script>
+
+    -->
+    <p id="demo"> </p>
+    <button class="button" onclick="myFunction()"> Vytisknout </button>
+   
+
+
+
+    <script src="javaScriptUceni.js"></script>
 </body>
 </html>
