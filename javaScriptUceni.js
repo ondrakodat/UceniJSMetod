@@ -1,36 +1,41 @@
-function myFunction(){
-    let jmeno = "Ondra";
-    jmeno = "Bohumil";
-    const prijmeni = "Kodat";
-    document.getElementById("demo").innerHTML = "Jmeno: " + jmeno + "<br> Prijmeni: " + prijmeni;
-}
+document.getElementById("nactiData").addEventListener("click", getDataFromApi);
 
-function pozdrav(){
-    let jmeno = document.getElementById("inputJmeno").value;
-    let delka = jmeno.length;
-    let zmenaJmenaNaPozdrav = jmeno.substring(0,delka-1);
-    let kontrola = kontrolaJmeno(jmeno);
-    if(kontrola == false){
-        return;
-    }
-    
-    let prijmeni = document.getElementById("inputPrijmeni").value;
-    document.getElementById("demo").innerHTML = "Ahoj: " + zmenaJmenaNaPozdrav + "o " + prijmeni + "e.";
+function getDataFromApi(){
+    axios.get('http://localhost:8080/api/zamestnanec')
+    .then(response => {
+        naplnitData(response.data);
+    }).catch(error => {console.error("Nastala chyba")});
+};
 
-}
+function naplnitData(data){
+    const tablebody = document.getElementById("tableBody");
 
-function kontrolaJmeno(jmeno){
-    let delka = jmeno.length;
-    if (delka < 3){
-        alert("Jmeno je moc kratke");
-        return false;
-    }
-    let obsahujeMezetu = jmeno.incldes(" ");
-    if(obsahujeMezetu){
-        alert("Jmeno nesmi obsahovat mezery");
-        return false;
-    }else {
-        return true;
-    }
+    data.forEach(zamestnanec => {
+        const radek = document.createElement("tr");
+
+
+        const id = document.createElement("td");
+        const jmeno = document.createElement("td");
+        const prijmeni = document.createElement("td");
+        const email = document.createElement("td");
+        const detail = document.createElement("button");
+        detail.classList.add("btn", "btn-danger");
+
+        id.textContent = zamestnanec.id;
+        jmeno.textContent = zamestnanec.jmeno;
+        prijmeni.textContent = zamestnanec.prijmeni;
+        email.textContent = zamestnanec.email;
+        detail.textContent = "Detail";
+
+        radek.appendChild(id);
+        radek.appendChild(jmeno);
+        radek.appendChild(prijmeni);
+        radek.appendChild(email);
+        radek.appendChild(detail);
+
+        tablebody.appendChild(radek);
+
+
+    })
 
 }
