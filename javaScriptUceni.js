@@ -7,8 +7,14 @@ function getDataFromApi(){
     }).catch(error => {console.error("Nastala chyba")});
 };
 
+function getDetailDataFromApi(id){
+    axios.get(`http://localhost:8080/api/zamestnanec/${id}`)
+    .then(response => {
+        vypisDetaily(response.data);
+    }).catch(error => {console.error("Nastala chyba při načítání detailu")});
+}
+
 function naplnitData(data){
-    const tablebody = document.getElementById("tableBody");
 
     data.forEach(zamestnanec => {
         const radek = document.createElement("tr");
@@ -20,6 +26,9 @@ function naplnitData(data){
         const email = document.createElement("td");
         const detail = document.createElement("button");
         detail.classList.add("btn", "btn-danger");
+        detail.addEventListener("click", () => {
+            getDetailDataFromApi(zamestnanec.id);
+        });
 
         id.textContent = zamestnanec.id;
         jmeno.textContent = zamestnanec.jmeno;
@@ -33,9 +42,22 @@ function naplnitData(data){
         radek.appendChild(email);
         radek.appendChild(detail);
 
-        tablebody.appendChild(radek);
-
+        document.getElementById("tableBody").appendChild(radek);
 
     })
-
 }
+
+function vypisDetaily(zamestnanec){
+    const detailCard = document.getElementById("detailCard");
+    detailCard.style.display = "block";
+    const jmenoPrijmeni = document.getElementById("jmenoAprijmeni");
+    const email = document.getElementById("email");
+
+    jmenoPrijmeni.textContent = `${zamestnanec.jmeno}  ${zamestnanec.prijmeni}`;
+    email.textContent = `${zamestnanec.email}`;
+}
+
+
+
+
+
